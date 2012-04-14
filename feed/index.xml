@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
+  <link href="http://zonyitoo.github.com/feed" rel="self"/>
+  <link href="http://zonyitoo.github.com/"/>
+  <updated>2012-04-14T22:37:51+08:00</updated>
+  <id>http://zonyitoo.github.com/</id>
+  <author>
+    <name><![CDATA[Yutang Chung]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android与服务器进行通信的问题]]></title>
+    <link href="http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti/"/>
+    <updated>2012-04-14T20:08:00+08:00</updated>
+    <id>http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti</id>
+    <content type="html"><![CDATA[<p>最近没有什么比较有趣而又有挑战性的项目在手，只好继续在<strong>WHJ</strong>老师的实验室里面准备搞ARM开发，唯一期待的就是准备筹建的参加全国大赛的机器人队，希望到时去面试能进！我正在怀疑我当时是不是应该选电子系而不是计算机系，毕竟现在表现得就像对底层的兴趣高于对前台开发或软件开发的兴趣。</p>
+
+<p>题外话说多了，入正题，这次探讨的是Android与Django架构服务器之间通信中遇到的问题及我的解决方法</p>
+
+<h2>应答字符串为JSON格式时，字符串两端会自动加上一个双引号</h2>
+
+<p>这个题目很奇怪，让人看起来不知道是在讲什么，我们来看一个实际例子</p>
+
+<ul>
+<li><p>手机这边向服务器请求用户登录，发送JSON字符串为</p>
+
+<blockquote><p>{&#34;user_name&#34;: user_name, &#34;user_password&#34;: user_password}</p></blockquote></li>
+<li><p>服务器端收到的JSON字符串为</p>
+
+<blockquote><p>&#34;{&#34;user_name&#34;: user_name, &#34;user_password&#34;: user_password}&#34;</p></blockquote></li>
+</ul>
+
+
+<p>反之亦然。</p>
+
+<p>发现不同了么？对了，就是左右两端多了个引号。这个BUG非常隐秘，这两个符号足足困扰了我三天才注意到它多了这么两个符号，导致整个字符串从一个JSONObject变成了一个String类型，直接写入JSONObject的构造函数会抛出JSONException</p>
+
+<figure class='code'><figcaption><span>解决方法  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">String</span> <span class="n">responseStr</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getResponse</span><span class="o">();</span>
+</span><span class='line'><span class="n">JSONTokener</span> <span class="n">tokener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONTokener</span><span class="o">(</span><span class="n">responseStr</span><span class="o">);</span>
+</span><span class='line'><span class="n">JSONObject</span> <span class="n">jsonobj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">tokener</span><span class="o">.</span><span class="na">nextValue</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然，看到这里一般来说都会想到，直接用substring取出中间那段字符不就行了么？是的，我刚开始也是这样想的，问题是不行，JSONObject的构造函数同样会解释错误，只有这样才是对的&#8230;</p>
+
+<p>但是，在服务器端用Python的substring却可以&#8230;非常怪异。</p>
+
+<h2>发送密码用Base64加密的问题</h2>
+
+<p>Android自身带有Base64加密与解密的包，可以方便地加密密码方便传输。</p>
+
+<figure class='code'><figcaption><span>加密所用的代码为  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">String</span> <span class="n">res</span> <span class="o">=</span> <span class="o">...</span>
+</span><span class='line'><span class="n">String</span> <span class="n">encode_str</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(),</span> <span class="n">Base64</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看起来用法与Java所带的sun.misc的Base64Encoder这些用法差不多，但应该留意到了，在encode的时候，会有一个参数Flags（即上面代码中的Base64.DEFAULT）</p>
+
+<p>这个参数有什么用呢？根据Android SDK的描述，这种参数有5个：</p>
+
+<blockquote><ol>
+<li><p>CRLF       这个参数看起来比较眼熟，它就是Win风格的换行符，意思就是使用CR LF这一对作为一行的结尾而不是Unix风格的LF</p></li>
+<li><p>DEFAULT    这个参数是默认，使用默认的方法来加密</p></li>
+<li><p>NO_PADDING 这个参数是略去加密字符串最后的&#8221;=&#8221;</p></li>
+<li><p>NO_WRAP    这个参数意思是略去所有的换行符（设置后CRLF就没用了）</p></li>
+<li><p>URL_SAFE   这个参数意思是加密时不使用对URL和文件名有特殊意义的字符来作为加密字符，具体就是以-和_取代+和/</p></li>
+</ol>
+</blockquote>
+
+<p>若用<code>Base64.DEFAULT</code>发送服务器不能识别，则应该选用<code>Base64.NO_WRAP | Baser64.URL_SAFE</code>来加密</p>
+
+<blockquote><p>例如原字符串为：[B@405693a8</p>
+
+<p>用DEFAULT加密后为：4Mgw681Pi3HFfCidsH/0XZ6Mc9g=</p>
+
+<p>用NO_WRAP | URL_SAFE加密后为：j3cM68c4ageVk8x4_CS5qrU1D_E=</p></blockquote>
+
+<p>由上面例子可以清楚见到，DEFAULT加密方式出现了/这个URL中会比较敏感的字符，而下面的方法加密则不会出现</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress主题集]]></title>
+    <link href="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji.markdown/"/>
+    <updated>2012-04-14T18:17:00+08:00</updated>
+    <id>http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji.markdown</id>
+    <content type="html"><![CDATA[<p>与其它博客系统一样，Octopress也有主题功能。如果你有JavaScript与CSS编写能力的话，照着默认主题自己写一个应该不太难。但是我只会一点JavaScript皮毛，会看不会写。</p>
+
+<p>这也就让我有迫切的需求要装一个主题来美化一下我的博客，不懂的话利用其它大神们的劳动成果是唯一的方法，那问题来了，拿到了主题之后怎么装呢？</p>
+
+<h1>安装Octopress主题</h1>
+
+<p>通过一轮搜索之后发现，Octopress的主题一般都是放在github上托管的，那么这类主题的安装方法是：</p>
+
+<ul>
+<li>首先找到这个主题的github地址，比如我这个博客用的主题是<code>https://github.com/bkutil/bootstrap-theme.git</code></li>
+<li>然后用git的clone方法把它下载到你本地博客根目录的.themes文件夹中：</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone https://github.com/bkutil/bootstrap-theme.git ./.themes/bootstrap-theme
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>下完之后你会发现在.themes文件夹下多了个bootstrap-theme文件夹，这就是主题</li>
+<li>然后我们要安装，执行<code>rake install['主题名']</code>就可以安装了，在这个例子里面就是：</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake install<span class="o">[</span><span class="s1">&#39;bootstrap-theme&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>最后当然要<code>rake generate</code>，然后预览一下<code>rake preview</code>，感觉不错之后就可以上传了</li>
+</ul>
+
+
+<h1>几款主题推荐</h1>
+
+<p>在Octopress的github上，推荐了一些主题，其中几个都挺不错的，可以看一看</p>
+
+<blockquote><p>List of Octopress Themes</p>
+
+<p>https://github.com/imathis/octopress/wiki/List-Of-Octopress-Themes</p></blockquote>
+
+<h2>Bootstrap-theme</h2>
+
+<h4>Another Twitter Bootstrap based theme <a href="http://bootstrap-theme.kutilovi.cz/">preview</a></h4>
+
+<p>这个就是你正在看的这个博客所用的主题，个人感觉还不错</p>
+
+<h2>slash</h2>
+
+<p>轻量级的主题，小清新 <a href="http://zespia.tw/Octopress-Theme-Slash/">preview</a></p>
+
+<p><img src="http://zonyitoo.github.com/images/artical-image/slash-preview.png" alt="Alt text" /></p>
+
+<h2>object-octopress-theme</h2>
+
+<p>极简的主题，感觉非常不错 <a href="http://k.ernel.org">preview</a></p>
+
+<h2>MrZhang.me</h2>
+
+<p>一个中国人写的主题，风格比较像记事博客 <a href="http://mrzhang.me/blog/blog-equals-github-plus-octopress.html">preview</a></p>
+
+<h2>compbits</h2>
+
+<p>看起来比较有科技感 <a href="http://blog.iwinux.info/">preview</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress安装手记]]></title>
+    <link href="http://zonyitoo.github.com/blog/2012/04/14/octopressan-zhuang-shou-ji/"/>
+    <updated>2012-04-14T16:55:00+08:00</updated>
+    <id>http://zonyitoo.github.com/blog/2012/04/14/octopressan-zhuang-shou-ji</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>本来我是想主攻<strong>底层操作系统方向</strong>和<strong>嵌入式软件设计</strong>，理应和WEB没什么关系，但是前几天<strong>Maplist</strong>大神准许我加入去维护一个MAC服务器，要我们去尝试在服务器上搭博客玩，于是就手痒找资料。</p>
+
+<p>刚开始就在SAE（Sina App Engine）上面搭了个WordPress的博客<em><a href="nerdzonyitoo.sinaapp.com">Nerd?Zonyitoo</a></em>，过程毫无技术含量，基本上就是点几下博客就出来了，毫无成就感。</p>
+
+<p>再接着就是强大的师弟<strong>LPY</strong>告诉我<em><a href="github.com">github</a></em>上面可以搭博客，于是趁今天有点空就去找了一下资料，发现过程同样简单！</p>
+
+<h1>在github在建一个博客</h1>
+
+<h2>当然首先要有个<a href="http://github.com">github.com</a>的帐号</h2>
+
+<ul>
+<li>先登上github.com申请一个免费的帐号</li>
+<li>然后在个人主页右下方点<code>New repository</code></li>
+<li>然后它会教你怎么把一个<em>HelloWorld</em>项目上传到那个repositoriy上去，基本上就是如下步骤:</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir ~/Hello-World
+</span><span class='line'><span class="nb">cd</span> ~/Hello-World
+</span><span class='line'>git init
+</span><span class='line'>Initialized empty Git repository in /Users/your_name_directory/Hello-World/.git/
+</span><span class='line'>touch README
+</span><span class='line'><span class="c"># 下面开始Commit</span>
+</span><span class='line'>git add README
+</span><span class='line'>git commit -m <span class="s1">&#39;first commit&#39;</span>
+</span><span class='line'><span class="c"># 上面这两句就是要把改变的文件记录到git里去</span>
+</span><span class='line'><span class="c"># 然后上传</span>
+</span><span class='line'>git remote add origin git@github.com:username/Hello-World.git
+</span><span class='line'>git push -u origin master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个时候打开你的Repository应该就能看到已经上传了的<strong>README</strong></p>
+
+<ul>
+<li>这时已经学会了简单的git操作技巧，那么就可以开始搭博客了。
+首先要取得SSH Public Keys</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>ssh-keygen -t rsa -C <span class="s2">&quot;your_email@youremail.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在<code>~/.ssh/</code>下面会看见一个叫<code>id_rsa.pub</code>的文件，用VIM或GEdit打开，把里面的东西拷到github网站里：&#8221;Account Settings&#8221; >> &#8220;SSH Public Keys&#8221; >> &#8220;Add another public key&#8221;，都复制到那个框内。</p>
+
+<blockquote><p>PS：如果是第一次的话很容易就会忽略右上角那个<strong>Add another public key</strong>，这时应该认真读一下<a href="http://help.github.com/ssh-key-passphrases/">github help</a></p></blockquote>
+
+<ul>
+<li>然后，就要建一个github pages。就是创建一个新的Repository，如果你的博客名是http://yourname.github.com，那么Repository的<em>project name</em>就<strong>必须</strong>是yourname.github.com</li>
+<li>接下来可以看一下github的help页面中<a href="http://help.github.com/pages/">关于如何搭建一个github pages</a>的教程，可以简单地上传一个index.html即可！但是这太简单了&#8230;</li>
+<li>不过，如果你现在已经按照help页面的方法做了的话，那么访问http://yourname.github.com就应该会看到一个大大的<strong>Hello!!</strong></li>
+<li>那么，大功告成_^</li>
+</ul>
+
+
+<p>不过，我们是不会简单地满足于只有一个index.html页面的，反正本人是比较懒，不想自己去写一个博客网站，那太费力了，那么采用现成的博客系统就是最好的选择，现成的话我知道的比较好用的有两个：WordPress和Octopress，而Github在这两者之中只支持Octopress = =</p>
+
+<h1>为什么要用Octopress?</h1>
+
+<p>其实，这个我不就不用多说了，为什么不直接去<a href="http://octopress.org">Octopress的官网</a>看一看呢</p>
+
+<h1>安装Ruby</h1>
+
+<p>Octopress是用Ruby写的系统，所以要用它那必须得先在自己电脑上装Ruby，安装其实很简单，一般的Linux发行版的包管理器中都会有Ruby，Ubuntu中则是：</p>
+
+<h4>用包管理器安装<strong>Ruby 1.9.2</strong></h4>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install ruby-1.9.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意的是，这里必须是要装<strong>Ruby 1.9.2</strong>，但为什么命令里是1.9.1？我也不知道，apt-get里面显示最新版就只有1.9.1但是装完后用<code>ruby -v</code>查看的话会显示<code>ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]</code></p>
+
+<blockquote><p>PS: 千万不要图省事直接<code>apt-get install ruby</code>，这样装完之后会陷入无尽的纠结之中（若你没有学过Ruby，我就是），因为它默认装的是1.8.x的版本，这是不能运行<strong>Octopress</strong>的！</p></blockquote>
+
+<h1>安装Octopress</h1>
+
+<ul>
+<li>获取octopress，直接执行</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git yourblogfolder
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>安装bundler</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo gem install bundler
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>安装</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>装默认主题</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，Octopress已经安装完毕，可以开始写日志了</p>
+
+<h1>激动人心的一步，写日志！</h1>
+
+<ul>
+<li>在你的博客根目录处，执行`rake new_post[&#8220;my first blog&#8221;]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
+<li>完成之后执行生成</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake generate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>执行预览可以在浏览器<a href="http://127.0.0.1:4000">这个地址</a>进行预览</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake preview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>最后执行提交，将日志提交到github上，完成！</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>补充一些</h1>
+
+<p>在第一次同步之前，要先执行</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>设定github发布，然后要填入你的Git URL，就是你的Respository页里面的SSH同步地址，格式如：<code>git@github.com:yourname/yourname.github.com.git</code></p>
+
+<h1>小结</h1>
+
+<p>这就是我这一个晚上研究的成果，终于成功搭了一个博客，虽然自己再回去看感觉其实过程也是很简单的，都是一些操作而没有要研究的东西，只是因为是第一次很多都是摸着石头过河，没有Ruby基础是关键！</p>
+
+<p>下一篇就来聊聊怎么配置Octopress，我还在学习中</p>
+
+<h1>学习参考:</h1>
+
+<ul>
+<li><a href="github.com">github.com</a></li>
+<li><a href="http://hopes4.me/blog/introduce-octopress-on-github/">我是清都山水郎的博文</a></li>
+<li><a href="http://www.ituring.com.cn/article/details/775">图灵社区Markdown语法</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
