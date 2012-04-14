@@ -4,7 +4,7 @@
   <title><![CDATA[朝思暮想 - Zonyitoo's Blog]]></title>
   <link href="http://zonyitoo.github.com/feed" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-15T00:13:54+08:00</updated>
+  <updated>2012-04-15T00:15:26+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -318,8 +318,12 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去
-* 完成之后执行生成</p>
+<p>然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</p>
+
+<ul>
+<li>完成之后执行生成</li>
+</ul>
+
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rake generate
