@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | 学习笔记 - SYSU.Zonyitoo Blog]]></title>
   <link href="http://zonyitoo.github.com/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T21:03:50+08:00</updated>
+  <updated>2012-04-14T22:10:11+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -33,30 +33,57 @@
 <ul>
 <li>先登上github.com申请一个免费的帐号</li>
 <li>然后在个人主页右下方点<code>New repository</code></li>
-<li><p>然后它会教你怎么把一个<em>HelloWorld</em>项目上传到那个repositoriy上去，基本上就是如下步骤:</p>
-
-<pre><code>  $ mkdir ~/Hello-World
-  $ cd ~/Hello-World
-  $ git init
-  Initialized empty Git repository in /Users/your_name_directory/Hello-World/.git/
-  $ touch README
-  # 下面开始Commit
-  $ git add README
-  $ git commit -m 'first commit'
-  # 上面这两句就是要把改变的文件记录到git里去
-  # 然后上传
-  $ git remote add origin git@github.com:username/Hello-World.git
-  $ git push -u origin master
-</code></pre>
-
-<p>  这个时候打开你的Repository应该就能看到已经上传了的<strong>README</strong></p></li>
-<li><p>这时已经学会了简单的git操作技巧，那么就可以开始搭博客了。
-首先要得到SSH Public Keys</p>
-
-<pre><code>  $ ssh-keygen -t rsa -C "your_email@youremail.com"
-</code></pre></li>
+<li>然后它会教你怎么把一个<em>HelloWorld</em>项目上传到那个repositoriy上去，基本上就是如下步骤:</li>
 </ul>
 
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>mkdir ~/Hello-World
+</span><span class='line'><span class="nb">cd</span> ~/Hello-World
+</span><span class='line'>git init
+</span><span class='line'>Initialized empty Git repository in /Users/your_name_directory/Hello-World/.git/
+</span><span class='line'>touch README&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;下面开始Commit&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;git add README
+</span><span class='line'>git commit -m <span class="s1">&#39;first commit&#39;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;上面这两句就是要把改变的文件记录到git里去&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;然后上传&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;git remote add origin git@github.com:username/Hello-World.git
+</span><span class='line'>git push -u origin master
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这个时候打开你的Repository应该就能看到已经上传了的<strong>README</strong></p>
+
+<ul>
+<li>这时已经学会了简单的git操作技巧，那么就可以开始搭博客了。
+首先要取得SSH Public Keys</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>ssh-keygen -t rsa -C <span class="s2">&quot;your_email@youremail.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>然后在<code>~/.ssh/</code>下面会看见一个叫<code>id_rsa.pub</code>的文件，用VIM或GEdit打开，把里面的东西拷到github网站里："Account Settings" >> "SSH Public Keys" >> "Add another public key"，都复制到那个框内。</p>
 
@@ -82,8 +109,9 @@
 
 <h4>用包管理器安装<strong>Ruby 1.9.2</strong></h4>
 
-<pre><code># apt-get install ruby-1.9.1
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install ruby-1.9.1
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>要注意的是，这里必须是要装<strong>Ruby 1.9.2</strong>，但为什么命令里是1.9.1？我也不知道，apt-get里面显示最新版就只有1.9.1但是装完后用<code>ruby -v</code>查看的话会显示<code>ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]</code></p>
 
@@ -92,13 +120,37 @@
 <h1>安装Octopress</h1>
 
 <ul>
-<li><p>获取octopress，直接执行</p>
+<li>获取octopress，直接执行</li>
+</ul>
 
-<pre><code>  $ git clone git://github.com/imathis/octopress.git yourblogfolder
-</code></pre></li>
-<li><p><code>gem install bundler</code></p></li>
-<li><code>bundle install</code></li>
-<li><code>rake install</code>    这一步是装默认主题</li>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git yourblogfolder
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>安装bundler</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo gem install bundler
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>安装</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo gem install bundler
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>装默认主题
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake install
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
 </ul>
 
 
@@ -108,9 +160,18 @@
 
 <ul>
 <li>在你的博客根目录处，执行`rake new_post["my first blog"]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
-<li>完成之后执行<code>rake generate</code>，生成</li>
-<li>执行<code>rake preview</code>可以在浏览器<a href="http://127.0.0.1:4000">这个地址</a>进行预览</li>
-<li>最后执行<code>rake deploy</code>，将日志提交到github上，完成！</li>
+<li>完成之后执行生成
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake generate
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>执行预览可以在浏览器<a href="http://127.0.0.1:4000">这个地址</a>进行预览
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake preview
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>最后执行提交，将日志提交到github上，完成！
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
 </ul>
 
 
@@ -118,8 +179,9 @@
 
 <p>在第一次同步之前，要先执行</p>
 
-<pre><code>rake setup_github_pages
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>设定github发布，然后要填入你的Git URL，就是你的Respository页里面的SSH同步地址，格式如：<code>git@github.com:yourname/yourname.github.com.git</code></p>
 

@@ -135,12 +135,15 @@
 
 <p>发现不同了么？对了，就是左右两端多了个引号。这个BUG非常隐秘，这两个符号足足困扰了我三天才注意到它多了这么两个符号，导致整个字符串从一个JSONObject变成了一个String类型，直接写入JSONObject的构造函数会抛出JSONException</p>
 
-<p>解决方法：</p>
+<figure class='code'><figcaption><span>解决方法  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">String</span> <span class="n">responseStr</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getResponse</span><span class="o">();</span>
+</span><span class='line'><span class="n">JSONTokener</span> <span class="n">tokener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONTokener</span><span class="o">(</span><span class="n">responseStr</span><span class="o">);</span>
+</span><span class='line'><span class="n">JSONObject</span> <span class="n">jsonobj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">tokener</span><span class="o">.</span><span class="na">nextValue</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>String responseStr = connection.getResponse();
-JSONTokener tokener = new JSONTokener(responseStr);
-JSONObject jsonobj = new JSONObject((String) tokener.nextValue());
-</code></pre>
 
 <p>当然，看到这里一般来说都会想到，直接用substring取出中间那段字符不就行了么？是的，我刚开始也是这样想的，问题是不行，JSONObject的构造函数同样会解释错误，只有这样才是对的&#8230;</p>
 
@@ -150,11 +153,13 @@ JSONObject jsonobj = new JSONObject((String) tokener.nextValue());
 
 <p>Android自身带有Base64加密与解密的包，可以方便地加密密码方便传输。</p>
 
-<p>加密所用的代码为：</p>
+<figure class='code'><figcaption><span>加密所用的代码为  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">String</span> <span class="n">res</span> <span class="o">=</span> <span class="o">...</span>
+</span><span class='line'><span class="n">String</span> <span class="n">encode_str</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(),</span> <span class="n">Base64</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>String res = ...
-String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
-</code></pre>
 
 <p>看起来用法与Java所带的sun.misc的Base64Encoder这些用法差不多，但应该留意到了，在encode的时候，会有一个参数Flags（即上面代码中的Base64.DEFAULT）</p>
 
@@ -210,6 +215,8 @@ String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
   
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti/" data-via="zonyitoo" data-counturl="http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti/" >Tweet</a>
   
+  
+  <div class="g-plusone" data-size="medium"></div>
   
   
 </div>
@@ -291,20 +298,11 @@ String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
   </script>
   <script src="/javascripts/twitter.js" type="text/javascript"> </script>
   
-    <a href="http://twitter.com/zonyitoo" class="twitter-follow-button" data-show-count="false">Follow @zonyitoo</a>
+    <a href="http://twitter.com/zonyitoo" class="twitter-follow-button" data-show-count="true">Follow @zonyitoo</a>
   
 </section>
 
 
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/zonyitoo?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
 
 
 
@@ -326,6 +324,14 @@ String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 
