@@ -50,7 +50,7 @@ categories: [github, Octopress]
 不过，我们是不会简单地满足于只有一个index.html页面的，反正本人是比较懒，不想自己去写一个博客网站，那太费力了，那么采用现成的博客系统就是最好的选择，现成的话我知道的比较好用的有两个：WordPress和Octopress，而Github在这两者之中只支持Octopress = =
 
 # 为什么要用Octopress?
-其实，这个我不就不用多数了，为什么不直接去[Octopress的官网](http://octopress.org)看一看呢
+其实，这个我不就不用多说了，为什么不直接去[Octopress的官网](http://octopress.org)看一看呢
 
 # 安装Ruby
 Octopress是用Ruby写的系统，所以要用它那必须得先在自己电脑上装Ruby，安装其实很简单，一般的Linux发行版的包管理器中都会有Ruby，Ubuntu中则是：
