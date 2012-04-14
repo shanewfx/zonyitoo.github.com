@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | 朝思暮想 - Zonyitoo's Blog]]></title>
   <link href="http://zonyitoo.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T23:55:40+08:00</updated>
+  <updated>2012-04-15T00:13:54+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -159,7 +159,11 @@
 <h1>激动人心的一步，写日志！</h1>
 
 <ul>
-<li>在你的博客根目录处，执行`rake new_post["my first blog"]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
+<li>在你的博客根目录处，执行
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rake new_post<span class="o">[</span><span class="s2">&quot;my first blog&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
 <li>完成之后执行生成
 <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rake generate
