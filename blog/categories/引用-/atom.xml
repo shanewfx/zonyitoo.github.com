@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
-  <link href="http://zonyitoo.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 引用？ | 学习笔记 - SYSU.Zonyitoo Blog]]></title>
+  <link href="http://zonyitoo.github.com/blog/categories/引用-/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
   <updated>2012-04-14T16:59:30+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
@@ -58,13 +58,13 @@
 </ul>
 
 
-<p>然后在<code>~/.ssh/</code>下面会看见一个叫<code>id_rsa.pub</code>的文件，用VIM或GEdit打开，把里面的东西拷到github网站里：&#8221;Account Settings&#8221; >> &#8220;SSH Public Keys&#8221; >> &#8220;Add another public key&#8221;，都复制到那个框内。</p>
+<p>然后在<code>~/.ssh/</code>下面会看见一个叫<code>id_rsa.pub</code>的文件，用VIM或GEdit打开，把里面的东西拷到github网站里："Account Settings" >> "SSH Public Keys" >> "Add another public key"，都复制到那个框内。</p>
 
 <blockquote><p>PS：如果是第一次的话很容易就会忽略右上角那个<strong>Add another public key</strong>，这时应该认真读一下<a href="http://help.github.com/ssh-key-passphrases/">github help</a></p></blockquote>
 
 <ul>
 <li>然后，就要建一个github pages。就是创建一个新的Repository，如果你的博客名是http://yourname.github.com，那么Repository的<em>project name</em>就<strong>必须</strong>是yourname.github.com</li>
-<li>接下来可以看一下github的help页面中<a href="http://help.github.com/pages/">关于如何搭建一个github pages</a>的教程，可以简单地上传一个index.html即可！但是这太简单了&#8230;</li>
+<li>接下来可以看一下github的help页面中<a href="http://help.github.com/pages/">关于如何搭建一个github pages</a>的教程，可以简单地上传一个index.html即可！但是这太简单了...</li>
 <li>不过，如果你现在已经按照help页面的方法做了的话，那么访问http://yourname.github.com就应该会看到一个大大的<strong>Hello!!</strong></li>
 <li>那么，大功告成_^</li>
 </ul>
@@ -107,7 +107,7 @@
 <h1>激动人心的一步，写日志！</h1>
 
 <ul>
-<li>在你的博客根目录处，执行`rake new_post[&#8220;my first blog&#8221;]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
+<li>在你的博客根目录处，执行`rake new_post["my first blog"]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
 <li>完成之后执行<code>rake generate</code>，生成</li>
 <li>执行<code>rake preview</code>可以在浏览器<a href="http://127.0.0.1:400">这个地址</a>进行预览</li>
 <li>最后执行<code>rake deploy</code>，将日志提交到github上，完成！</li>
