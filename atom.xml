@@ -4,7 +4,7 @@
   <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
   <link href="http://zonyitoo.github.com/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T20:46:52+08:00</updated>
+  <updated>2012-04-14T21:00:16+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -75,6 +75,14 @@ String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
 </blockquote>
 
 <p>若用<code>Base64.DEFAULT</code>发送服务器不能识别，则应该选用<code>Base64.NO_WRAP | Baser64.URL_SAFE</code>来加密</p>
+
+<blockquote><p>例如原加密字符串为：[B@405693a8</p>
+
+<p>用DEFAULT加密后为：4Mgw681Pi3HFfCidsH/0XZ6Mc9g=</p>
+
+<p>用NO_WRAP | URL_SAFE加密后为：j3cM68c4ageVk8x4_CS5qrU1D_E=</p></blockquote>
+
+<p>由上面例子可以清楚见到，DEFAULT加密方式出现了/这个URL中会比较敏感的字符，而下面的方法加密则不会出现</p>
 ]]></content>
   </entry>
   
