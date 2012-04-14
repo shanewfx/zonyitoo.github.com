@@ -4,7 +4,7 @@
   <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
   <link href="http://zonyitoo.github.com/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T19:46:32+08:00</updated>
+  <updated>2012-04-14T20:46:52+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android与服务器进行通信的问题]]></title>
+    <link href="http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti/"/>
+    <updated>2012-04-14T20:08:00+08:00</updated>
+    <id>http://zonyitoo.github.com/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti</id>
+    <content type="html"><![CDATA[<p>最近没有什么比较有趣而又有挑战性的项目在手，只好继续在<strong>WHJ</strong>老师的实验室里面准备搞ARM开发，唯一期待的就是准备筹建的参加全国大赛的机器人队，希望到时去面试能进！我正在怀疑我当时是不是应该选电子系而不是计算机系，毕竟现在表现得就像对底层的兴趣高于对前台开发或软件开发的兴趣。</p>
+
+<p>题外话说多了，入正题，这次探讨的是Android与Django架构服务器之间通信中遇到的问题及我的解决方法</p>
+
+<h2>应答字符串为JSON格式时，字符串两端会自动加上一个双引号</h2>
+
+<p>这个题目很奇怪，让人看起来不知道是在讲什么，我们来看一个实际例子</p>
+
+<ul>
+<li><p>手机这边向服务器请求用户登录，发送JSON字符串为</p>
+
+<blockquote><p>{&#34;user_name&#34;: user_name, &#34;user_password&#34;: user_password}</p></blockquote></li>
+<li><p>服务器端收到的JSON字符串为</p>
+
+<blockquote><p>&#34;{&#34;user_name&#34;: user_name, &#34;user_password&#34;: user_password}&#34;</p></blockquote></li>
+</ul>
+
+
+<p>反之亦然。</p>
+
+<p>发现不同了么？对了，就是左右两端多了个引号。这个BUG非常隐秘，这两个符号足足困扰了我三天才注意到它多了这么两个符号，导致整个字符串从一个JSONObject变成了一个String类型，直接写入JSONObject的构造函数会抛出JSONException</p>
+
+<p>解决方法：</p>
+
+<pre><code>String responseStr = connection.getResponse();
+JSONTokener tokener = new JSONTokener(responseStr);
+JSONObject jsonobj = new JSONObject((String) tokener.nextValue());
+</code></pre>
+
+<p>当然，看到这里一般来说都会想到，直接用substring取出中间那段字符不就行了么？是的，我刚开始也是这样想的，问题是不行，JSONObject的构造函数同样会解释错误，只有这样才是对的&#8230;</p>
+
+<p>但是，在服务器端用Python的substring却可以&#8230;非常怪异。</p>
+
+<h2>发送密码用Base64加密的问题</h2>
+
+<p>Android自身带有Base64加密与解密的包，可以方便地加密密码方便传输。</p>
+
+<p>加密所用的代码为：</p>
+
+<pre><code>String res = ...
+String encode_str = Base64.encodeToString(res.getBytes(), Base64.DEFAULT);
+</code></pre>
+
+<p>看起来用法与Java所带的sun.misc的Base64Encoder这些用法差不多，但应该留意到了，在encode的时候，会有一个参数Flags（即上面代码中的Base64.DEFAULT）</p>
+
+<p>这个参数有什么用呢？根据Android SDK的描述，这种参数有5个：</p>
+
+<blockquote><ol>
+<li><p>CRLF       这个参数看起来比较眼熟，它就是Win风格的换行符，意思就是使用CR LF这一对作为一行的结尾而不是Unix风格的LF</p></li>
+<li><p>DEFAULT    这个参数是默认，使用默认的方法来加密</p></li>
+<li><p>NO_PADDING 这个参数是略去加密字符串最后的&#8221;=&#8221;</p></li>
+<li><p>NO_WRAP    这个参数意思是略去所有的换行符（设置后CRLF就没用了）</p></li>
+<li><p>URL_SAFE   这个参数意思是加密时不使用对URL和文件名有特殊意义的字符来作为加密字符，具体就是以-和_取代+和/</p></li>
+</ol>
+</blockquote>
+
+<p>若用<code>Base64.DEFAULT</code>发送服务器不能识别，则应该选用<code>Base64.NO_WRAP | Baser64.URL_SAFE</code>来加密</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress主题集]]></title>
