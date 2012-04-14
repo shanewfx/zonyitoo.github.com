@@ -9,8 +9,7 @@
   <meta name="author" content="Yutang Chung">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="与其它博客系统一样，Octopress也有主题功能。如果你有JavaScript与CSS编写能力的话，照着默认主题自己写一个应该不太难。但是我只会一点JavaScript皮毛，会看不会写。 这也就让我有迫切的需求要装一个主题来美化一下我的博客，不懂的话利用其它大神们的劳动成果是唯一的方法， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji">
+  <link rel="canonical" href="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji.markdown">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -114,7 +113,60 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>与其它博客系统一样，Octopress也有主题功能。如果你有JavaScript与CSS编写能力的话，照着默认主题自己写一个应该不太难。但是我只会一点JavaScript皮毛，会看不会写。</p>
+
+<p>这也就让我有迫切的需求要装一个主题来美化一下我的博客，不懂的话利用其它大神们的劳动成果是唯一的方法，那问题来了，拿到了主题之后怎么装呢？</p>
+
+<h1>安装Octopress主题</h1>
+
+<p>通过一轮搜索之后发现，Octopress的主题一般都是放在github上托管的，那么这类主题的安装方法是：</p>
+
+<ul>
+<li>首先找到这个主题的github地址，比如我这个博客用的主题是<code>https://github.com/bkutil/bootstrap-theme.git</code></li>
+<li><p>然后用git的clone方法把它下载到你本地博客根目录的.themes文件夹中：</p>
+
+<pre><code>  $ git clone https://github.com/bkutil/bootstrap-theme.git ./.themes/bootstrap-theme
+</code></pre></li>
+<li><p>下完之后你会发现在.themes文件夹下多了个bootstrap-theme文件夹，这就是主题</p></li>
+<li><p>然后我们要安装，执行<code>rake install['主题名']</code>就可以安装了，在这个例子里面就是：</p>
+
+<pre><code>  rake install['bootstrap-theme']
+</code></pre></li>
+<li><p>最后当然要<code>rake generate</code>，然后预览一下<code>rake preview</code>，感觉不错之后就可以上传了</p></li>
+</ul>
+
+
+<h1>几款主题推荐</h1>
+
+<p>在Octopress的github上，推荐了一些主题，其中几个都挺不错的，可以看一看</p>
+
+<blockquote><p>List of Octopress Themes</p>
+
+<p>https://github.com/imathis/octopress/wiki/List-Of-Octopress-Themes</p></blockquote>
+
+<h2>Bootstrap-theme</h2>
+
+<h4>Another Twitter Bootstrap based theme <a href="http://bootstrap-theme.kutilovi.cz/">preview</a></h4>
+
+<p>这个就是你正在看的这个博客所用的主题，个人感觉还不错</p>
+
+<h2>slash</h2>
+
+<p>轻量级的主题，小清新 <a href="http://zespia.tw/Octopress-Theme-Slash/">preview</a></p>
+
+<p><img src="/images/slash-preview.png" alt="Alt text" /></p>
+
+<h2>object-octopress-theme</h2>
+
+<p>极简的主题，感觉非常不错 <a href="http://k.ernel.org">preview</a></p>
+
+<h2>MrZhang.me</h2>
+
+<p>一个中国人写的主题，风格比较像记事博客 <a href="http://mrzhang.me/blog/blog-equals-github-plus-octopress.html">preview</a></p>
+
+<h2>compbits</h2>
+
+<p>看起来比较有科技感 <a href="http://blog.iwinux.info/">preview</a></p>
 </div>
 
 
@@ -145,7 +197,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji/" data-via="zonyitoo" data-counturl="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji.markdown/" data-via="zonyitoo" data-counturl="http://zonyitoo.github.com/blog/2012/04/14/octopresszhu-ti-ji.markdown/" >Tweet</a>
   
   
   
@@ -172,7 +224,7 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
-        <a href="/blog/2012/04/14/octopresszhu-ti-ji/">Octopress主题集</a>
+        <a href="/blog/2012/04/14/octopresszhu-ti-ji.markdown/">Octopress主题集</a>
       </li>
     
       <li class="post">
