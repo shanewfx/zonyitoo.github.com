@@ -4,7 +4,7 @@
   <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
   <link href="http://zonyitoo.github.com/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T22:10:11+08:00</updated>
+  <updated>2012-04-14T22:12:35+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -290,7 +290,7 @@
 
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo gem install bundler
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>bundle install
 </span></code></pre></td></tr></table></div></figure>
 
 
