@@ -4,7 +4,7 @@
   <title><![CDATA[学习笔记 - SYSU.Zonyitoo Blog]]></title>
   <link href="http://zonyitoo.github.com/atom.xml" rel="self"/>
   <link href="http://zonyitoo.github.com/"/>
-  <updated>2012-04-14T17:11:04+08:00</updated>
+  <updated>2012-04-14T17:12:11+08:00</updated>
   <id>http://zonyitoo.github.com/</id>
   <author>
     <name><![CDATA[Yutang Chung]]></name>
@@ -109,7 +109,7 @@
 <ul>
 <li>在你的博客根目录处，执行`rake new_post[&#8220;my first blog&#8221;]，然后你会发现在/source/_post/下会生成一个.markdown文件，这时你就可以拿它来写日志了，写好了日志然后保存回去</li>
 <li>完成之后执行<code>rake generate</code>，生成</li>
-<li>执行<code>rake preview</code>可以在浏览器<a href="http://127.0.0.1:400">这个地址</a>进行预览</li>
+<li>执行<code>rake preview</code>可以在浏览器<a href="http://127.0.0.1:4000">这个地址</a>进行预览</li>
 <li>最后执行<code>rake deploy</code>，将日志提交到github上，完成！</li>
 </ul>
 
