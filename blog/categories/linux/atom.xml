@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | Manual - Zonyitoo's Blog]]></title>
+  <link href="http://zonyitoo.github.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://zonyitoo.github.com/"/>
+  <updated>2012-04-15T22:21:12+08:00</updated>
+  <id>http://zonyitoo.github.com/</id>
+  <author>
+    <name><![CDATA[Yutang Chung]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[嵌入式Linux学习思路及参考资料(ARM+LINUX路线)]]></title>
+    <link href="http://zonyitoo.github.com/blog/2012/04/15/qian-ru-shi-linuxxue-xi-si-lu-ji-can-kao-zi-liao-arm-plus-linuxlu-xian/"/>
+    <updated>2012-04-15T19:07:00+08:00</updated>
+    <id>http://zonyitoo.github.com/blog/2012/04/15/qian-ru-shi-linuxxue-xi-si-lu-ji-can-kao-zi-liao-arm-plus-linuxlu-xian</id>
+    <content type="html"><![CDATA[<h1>嵌入式人才需求</h1>
+
+<ol>
+<li><strong>嵌入式应用工程师</strong>：主要面向计算机、软件工程相关专业。其基于某个平台，例如嵌入式Linux、Vxworks、WinCE的上层应用软件开发，开发语言主要采用嵌入式C/C++，主要领域网络、图形、数据库、音频、视频处理等。</li>
+<li>嵌入式系统工程师：主要面向电子信息相关专业，基于某个处理器内核，例如ARM、MIPS、PPC等，主要开发语言为汇编语言及嵌入式C语言编程，主要从事BootLoader、操作系统及中间件移植等工作。</li>
+<li><strong>嵌入式驱动工程师</strong>：主要面向电子信息、计算机相关专业，基于某个处理器，例如2410、2440、6410等平台，开发语言主要为嵌入式C语言，主要从事接口驱动</li>
+</ol>
+
+
+<h3>嵌入式学生都应具备以下基本能力</h3>
+
+<ol>
+<li><strong>至少</strong>一种嵌入式处理器（ARM）</li>
+<li><strong>至少</strong>一种嵌入式操作系统（LINUX）</li>
+<li>一套嵌入式开发工具（ADS、GCC、嵌入式交叉编译调试环境）</li>
+<li>一类开发语言（ARM汇编、C/C++）</li>
+</ol>
+
+
+<p>另外，必须熟悉嵌入式软件开发流程并至少做一个嵌入式软件项目。</p>
+
+<h1>从事嵌入式软件开发的好处</h1>
+
+<ol>
+<li>目前国内外这方面的人都很<strong>稀缺</strong></li>
+<li>与企业计算等应用软件不同，嵌入式领域人才的工作强度通常低一些（但收入不低）</li>
+<li>嵌入式不像应用软件那样容易被盗版</li>
+</ol>
+
+
+<h1>从事嵌入式软件开发的缺点</h1>
+
+<ol>
+<li><strong>入门起点较高</strong>，所用到的技术往往都有一定的难度，若软硬件基础不好，特别是操作系统级软件功底不深，则可能不适于此行。</li>
+<li>这方面的企业数量要<strong>远少</strong>于企业计算类企业</li>
+<li>有少数公司经常要硕士以上的人搞嵌入式，主要是基于嵌入式的难度，但大多数公司也并无此要求，只要有经验即可</li>
+<li>平台依托强，换平台比较辛苦</li>
+</ol>
+
+
+<h1>方法步骤</h1>
+
+<h3>1. 基础知识</h3>
+
+<ul>
+<li>数字电路</li>
+<li>计算机组成原理</li>
+<li>C/C++，嵌入式C</li>
+<li>数据结构和算法</li>
+<li>操作系统</li>
+<li>网络</li>
+<li>数据库</li>
+</ul>
+
+
+<p><strong>C语言参考书：</strong></p>
+
+<ul>
+<li>The C++ Programming Language</li>
+<li>Pointers on C</li>
+<li>C traps and pitfalls</li>
+<li>Expert C Language</li>
+</ul>
+
+
+<h3>2. Linux学习</h3>
+
+<blockquote><p>使用Linux
+Linux应用编程开发
+驱动开发和分析Linux内核</p></blockquote>
+
+<p><strong>Linux基础参考书：</strong></p>
+
+<ul>
+<li>《Linux与Unix Shell编程指南》</li>
+<li>《Red Head Linux 9系统管理与服务器配置》人民邮电出版社</li>
+</ul>
+
+
+<p><strong>Linux应用编程开发：</strong></p>
+
+<ul>
+<li>《UNIX Network Programming（第3版）》机械工业出版社  网络编程用</li>
+<li>《UNIX环境高级编程（第2版）》清华大学出版社 系统调用及编程工具书</li>
+<li>《Linux高级程序设计（第2版）》人民邮电出版社 杨宗德 系统调用及编程，有很多救命，初学者很不错</li>
+</ul>
+
+
+<p><strong>驱动开发和分析Linux内核：</strong></p>
+
+<ul>
+<li>《Linux内核设计与实现》陈莉君 机械工业出版社</li>
+<li>《Linux设备驱动开发》中国电力出版社</li>
+</ul>
+
+
+<h3>3. ARM＋Linux嵌入式系统开发</h3>
+
+<p><strong>ARM基础学习</strong></p>
+
+<ul>
+<li>《嵌入式ARM系统原理与实例开发（第2版）》北京大学出版社</li>
+<li>《ARM体系结构与编程》杜春雷</li>
+<li>S3C2410 Datasheet</li>
+</ul>
+
+
+<p><strong>嵌入Linux开发</strong></p>
+
+<p>买块板子，调试程序</p>
+
+<blockquote><p>其实很多人有误区，觉得学嵌入式要有板子，在后期确实如此，但如果基础达不到，也就把例子拿来跑跑，只有以上基础，基本功达到才能够真正开发</p></blockquote>
+
+<h2>深入学习</h2>
+
+<ol>
+<li>数字图像压缩技术：主要是应掌握MPEG、MP3等编解码算法和技术</li>
+<li>通信协议及编程技术：TCP/IP协议、802.11、Bluetooth、GPRS、GSM、CDMA等</li>
+<li>网络与信息安全技术：如加密技术、数据证书CA等</li>
+<li>DSP（Digital Signal Process）技术，DSP处理器通过硬件实现数字信号处理算法</li>
+</ol>
+
+
+<h1>引用</h1>
+
+<p>本文引用自<a href="http://www.mcuos.com/thread-5302-1-1.html">嵌入式开发联盟网</a>版主osboy的文章《嵌入式Linux学习思路及参考资料（ARM+LINUX路线）》</p>
+]]></content>
+  </entry>
+  
+</feed>
