@@ -344,13 +344,15 @@ Linux应用编程开发
 
 <p>若用<code>Base64.DEFAULT</code>发送服务器不能识别，则应该选用<code>Base64.NO_WRAP | Baser64.URL_SAFE</code>来加密</p>
 
-<blockquote><p>例如原字符串为：[B@405693a8</p>
+<blockquote><p>例如原字符串为：QUFodH?????</p>
 
-<p>用DEFAULT加密后为：4Mgw681Pi3HFfCidsH/0XZ6Mc9g=</p>
+<p>用DEFAULT加密后为：UVVGb2RIPz8/Pz8=</p>
 
-<p>用NO_WRAP | URL_SAFE加密后为：j3cM68c4ageVk8x4_CS5qrU1D_E=</p></blockquote>
+<p>用NO_WRAP | URL_SAFE加密后为：UVVGb2RIPz8_Pz8=</p>
 
-<p>由上面例子可以清楚见到，DEFAULT加密方式出现了/这个URL中会比较敏感的字符，而下面的方法加密则不会出现</p>
+<p><em>用sun.misc.BASE64Encoder加密后为：UVVGb2RIPz8/Pz8=</em></p></blockquote>
+
+<p>由上面例子可以清楚见到，DEFAULT加密方式出现了/这个URL中会比较敏感的字符，而URL_SAFE方法加密则不会出现</p>
 </div>
   
   
