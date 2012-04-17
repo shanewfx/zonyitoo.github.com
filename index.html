@@ -9,8 +9,7 @@
   <meta name="author" content="Yutang Chung">
 
   
-  <meta name="description" content="嵌入式人才需求 嵌入式应用工程师：主要面向计算机、软件工程相关专业。其基于某个平台，例如嵌入式Linux、Vxworks、WinCE的上层应用软件开发，开发语言主要采用嵌入式C/C++，主要领域网络、图形、数据库、音频、视频处理等。
-嵌入式系统工程师：主要面向电子信息相关专业，基于某个处理器内核， &hellip;">
+  <meta name="description" content="Description Bruce是K国的商人，他在A州成立了自己的公司，这次他的公司生产出了一批性能很好的产品，准备宣传活动开始后的第L天到达B州进行新品拍卖，期间Bruce打算将产品拿到各个州去做推销宣传,以增加其影响力。 K国有很多个州,每个州都与其他一些州相邻, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +86,185 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/">SOJ 1211.商人的宣传 题解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T19:34:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Description</h1>
+
+<p>Bruce是K国的商人，他在A州成立了自己的公司，这次他的公司生产出了一批性能很好的产品，准备宣传活动开始后的第L天到达B州进行新品拍卖，期间Bruce打算将产品拿到各个州去做推销宣传,以增加其影响力。</p>
+
+<p>K国有很多个州,每个州都与其他一些州相邻,但是K国对商人作宣传却有一些很奇怪的规定：</p>
+
+<p>1、 商人只能从某些州到达另外一些州，即连通路线是单向的，而且有些州可能是到达不了的。</p>
+
+<p>2、 商人不允许在同一个州连续宣传两天或以上，每天宣传完必须离开该州。</p>
+
+<p>3、 商人可以多次来到同一个州进行宣传。</p>
+
+<p>&#8220;我必须找出一条影响力最大的路线才行&#8221;，Bruce想，&#8221;但我首先必须知道到底有多少这种符合规定的宣传路线可供我选择。&#8221;现在Bruce把任务交给了你。并且出于考虑以后的需要，你还要帮他算出给出的两州之间的路线的总数。</p>
+
+<h1>Input</h1>
+
+<p>输入文件第一行包含三个整数n,m,L（1≤n,L≤100），分别表示K国的州数、连通路线的数量，以及多少天后必须到达B州。接下来有m行，每行一队整数x,y（1≤x,y≤n），表示商人能从x州到达y州。</p>
+
+<p>第m+2行为一个整数q（1≤q≤100），表示Bruce有q个询问。下面q行每行两个整数A,B（1≤A,B≤n），即A、B州的位置。</p>
+
+<h1>Output</h1>
+
+<p>输出文件包含q行，每行一个整数t，为所求的从A州到B州满足上述规定的路线总数。</p>
+
+<p>输入数据中的询问将保证答案t在长整数范围内，即t&lt;2<sup>31。</sup></p>
+
+<h1>Sample Input</h1>
+
+<p>4 5 6</p>
+
+<p>1 2</p>
+
+<p>2 3</p>
+
+<p>3 4</p>
+
+<p>4 1</p>
+
+<p>2 4</p>
+
+<p>2</p>
+
+<p>1 4</p>
+
+<p>4 2</p>
+
+<h1>Sample Output</h1>
+
+<p>2</p>
+
+<p>1</p>
+
+<h1>Solving</h1>
+
+<p>题意已经很很显然了，那就直入正题，如何解决这个题目？</p>
+
+<p>题目一看就是一个找路的问题，但难点在于如何找出所有可以走的路和对于每一个询问都能迅速地给出答案。</p>
+
+<p>为了应对多个询问，那必须要有预处理，在接受完路线图的输入之后，马上把所有可能问到的A与B之间的路线总数都算出来存在一个数据结构中。</p>
+
+<p>计算每个A到B之间的路线，可以用分治的思想，把大问题化小，利用之前已计算过的结果结合得出更远的两个城市之间的结果。</p>
+
+<h1>Code</h1>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;cstdio&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;stack&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;memory.h&gt;</span>
+</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">u</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="n">w</span><span class="p">[</span><span class="mi">10010</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="mi">110</span><span class="p">][</span><span class="mi">110</span><span class="p">][</span><span class="mi">110</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">l</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">l</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">u</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">u</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">q</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">l</span><span class="p">;</span> <span class="o">++</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">u</span><span class="p">];</span>
+</span><span class='line'>                <span class="c1">//printf(&quot;f[%d][%d][%d]=%d %d\n&quot;, i, j, w[k].v, f[i][j][w[k].v], f[i - 1][j][w[k].u]);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="n">q</span> <span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -732,6 +910,10 @@ Linux应用编程开发
 <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/">SOJ 1211.商人的宣传 题解</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/04/15/qian-ru-shi-linuxxue-xi-si-lu-ji-can-kao-zi-liao-arm-plus-linuxlu-xian/">嵌入式Linux学习思路及参考资料(ARM+LINUX路线)</a>

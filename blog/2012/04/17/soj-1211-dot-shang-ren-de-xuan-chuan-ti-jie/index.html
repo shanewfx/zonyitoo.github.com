@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SOJ 1211.商人的宣传 题解 - Manual - Zonyitoo's Blog</title>
+  <meta name="author" content="Yutang Chung">
+
+  
+  <meta name="description" content="Description Bruce是K国的商人，他在A州成立了自己的公司，这次他的公司生产出了一批性能很好的产品，准备宣传活动开始后的第L天到达B州进行新品拍卖，期间Bruce打算将产品拿到各个州去做推销宣传,以增加其影响力。 K国有很多个州,每个州都与其他一些州相邻, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zonyitoo.github.com/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    .sharing, .meta {
+      margin: 20px 0px 20px 0px;
+    }
+    .pager {
+      margin: 20px 0px 5px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Manual - Zonyitoo's Blog" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+
+      <a class="brand" href="/">Manual - Zonyitoo's Blog</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">主页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+</ul>
+
+      </div>
+
+      <ul class="nav pull-right" data-subscription="rss">
+        <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        
+      </ul>
+
+        
+      <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="q" value="site:zonyitoo.github.com" />
+          <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+        
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">SOJ 1211.商人的宣传 题解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T19:34:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Description</h1>
+
+<p>Bruce是K国的商人，他在A州成立了自己的公司，这次他的公司生产出了一批性能很好的产品，准备宣传活动开始后的第L天到达B州进行新品拍卖，期间Bruce打算将产品拿到各个州去做推销宣传,以增加其影响力。</p>
+
+<p>K国有很多个州,每个州都与其他一些州相邻,但是K国对商人作宣传却有一些很奇怪的规定：</p>
+
+<p>1、 商人只能从某些州到达另外一些州，即连通路线是单向的，而且有些州可能是到达不了的。</p>
+
+<p>2、 商人不允许在同一个州连续宣传两天或以上，每天宣传完必须离开该州。</p>
+
+<p>3、 商人可以多次来到同一个州进行宣传。</p>
+
+<p>&#8220;我必须找出一条影响力最大的路线才行&#8221;，Bruce想，&#8221;但我首先必须知道到底有多少这种符合规定的宣传路线可供我选择。&#8221;现在Bruce把任务交给了你。并且出于考虑以后的需要，你还要帮他算出给出的两州之间的路线的总数。</p>
+
+<h1>Input</h1>
+
+<p>输入文件第一行包含三个整数n,m,L（1≤n,L≤100），分别表示K国的州数、连通路线的数量，以及多少天后必须到达B州。接下来有m行，每行一队整数x,y（1≤x,y≤n），表示商人能从x州到达y州。</p>
+
+<p>第m+2行为一个整数q（1≤q≤100），表示Bruce有q个询问。下面q行每行两个整数A,B（1≤A,B≤n），即A、B州的位置。</p>
+
+<h1>Output</h1>
+
+<p>输出文件包含q行，每行一个整数t，为所求的从A州到B州满足上述规定的路线总数。</p>
+
+<p>输入数据中的询问将保证答案t在长整数范围内，即t&lt;2<sup>31。</sup></p>
+
+<h1>Sample Input</h1>
+
+<p>4 5 6</p>
+
+<p>1 2</p>
+
+<p>2 3</p>
+
+<p>3 4</p>
+
+<p>4 1</p>
+
+<p>2 4</p>
+
+<p>2</p>
+
+<p>1 4</p>
+
+<p>4 2</p>
+
+<h1>Sample Output</h1>
+
+<p>2</p>
+
+<p>1</p>
+
+<h1>Solving</h1>
+
+<p>题意已经很很显然了，那就直入正题，如何解决这个题目？</p>
+
+<p>题目一看就是一个找路的问题，但难点在于如何找出所有可以走的路和对于每一个询问都能迅速地给出答案。</p>
+
+<p>为了应对多个询问，那必须要有预处理，在接受完路线图的输入之后，马上把所有可能问到的A与B之间的路线总数都算出来存在一个数据结构中。</p>
+
+<p>计算每个A到B之间的路线，可以用分治的思想，把大问题化小，利用之前已计算过的结果结合得出更远的两个城市之间的结果。</p>
+
+<h1>Code</h1>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;cstdio&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;stack&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;memory.h&gt;</span>
+</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">u</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="n">w</span><span class="p">[</span><span class="mi">10010</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="mi">110</span><span class="p">][</span><span class="mi">110</span><span class="p">][</span><span class="mi">110</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">l</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">l</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">u</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">u</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">q</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">l</span><span class="p">;</span> <span class="o">++</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">u</span><span class="p">];</span>
+</span><span class='line'>                <span class="c1">//printf(&quot;f[%d][%d][%d]=%d %d\n&quot;, i, j, w[k].v, f[i][j][w[k].v], f[i - 1][j][w[k].u]);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="n">q</span> <span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Yutang Chung</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-17T19:34:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>, <a class='category' href='/blog/categories/sicily/'>sicily</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zonyitoo.github.com/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/" data-via="zonyitoo" data-counturl="http://zonyitoo.github.com/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/04/15/qian-ru-shi-linuxxue-xi-si-lu-ji-can-kao-zi-liao-arm-plus-linuxlu-xian/" title="Previous Post:
+        嵌入式Linux学习思路及参考资料(ARM+LINUX路线)">&laquo; 嵌入式Linux学习思路及参考资料(ARM+LINUX路线)</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section>
+  <h1>关于我</h1>
+  <p><strong>中大信科计算机系</strong>学生</p>
+  <p><em>TAG</em>: 算法，嵌入式，Linux，Android</p>
+  <ul>
+  <li>热爱互联网</li>
+  <li>热爱开源事业</li>
+  <li>享受在未知领域探索的过程</li>
+  <li>热衷于在编程中寻找乐趣</li>
+  <li>感受创新的力量</li>
+  <li>不顾一切死钻一个问题的固执狂</li>
+  </ul>
+  <blockquote>
+  <p>Only life is priceless, and making each day count!</p>
+  </blockquote>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/">SOJ 1211.商人的宣传 题解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/15/qian-ru-shi-linuxxue-xi-si-lu-ji-can-kao-zi-liao-arm-plus-linuxlu-xian/">嵌入式Linux学习思路及参考资料(ARM+LINUX路线)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/androidyu-fu-wu-qi-jin-xing-tong-xin-de-wen-ti/">Android与服务器进行通信的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/octopresszhu-ti-ji.markdown/">Octopress主题集</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/octopressan-zhuang-shou-ji/">Octopress安装手记</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=2&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1725113620&verifier=cb60d2fc&dpc=1"></iframe>
+</section>
+
+<section class="well">
+  <ul id="tweets" class="nav">
+    <li class="nav-header">Latest Tweets</li>
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zonyitoo", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/zonyitoo" class="twitter-follow-button" data-show-count="true">Follow @zonyitoo</a>
+  
+</section>
+
+
+<section class="well">
+  <ul id="gh_repos" class="nav">
+    <li class="nav-header">GitHub Repos</li>
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/Zonyitoo">@Zonyitoo</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'Zonyitoo',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Yutang Chung -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sysuzonyitooblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zonyitoo.github.com/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/';
+        var disqus_url = 'http://zonyitoo.github.com/blog/2012/04/17/soj-1211-dot-shang-ren-de-xuan-chuan-ti-jie/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
